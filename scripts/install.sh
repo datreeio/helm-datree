@@ -1,40 +1,34 @@
 #! /bin/bash -e
 
 cd $HELM_PLUGIN_DIR
-version="$(cat plugin.yaml | grep "version" | cut -d '"' -f 2)"
-echo "Installing helm-datree v${version} ..."
+echo "Installing helm-datree..."
 
-unameOut="$(uname -s)"
+osName=$(uname -s)
+DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/datreeio/datree/releases/latest" | grep -o "browser_download_url.*\_${osName}_x86_64.zip")
 
-case "${unameOut}" in
-    Linux*)     os=Linux;;
-    Darwin*)    os=Darwin;;
-    *)          os="UNKNOWN:${unameOut}"
-esac
+DOWNLOAD_URL=${DOWNLOAD_URL//\"}
+DOWNLOAD_URL=${DOWNLOAD_URL/browser_download_url: /}
 
-url="https://github.com/datreeio/datree/releases/download/${version}/datree-cli_${version}_${os}_x86_64.zip"
+echo $DOWNLOAD_URL
+OUTPUT_BASENAME=datree-latest
+OUTPUT_BASENAME_WITH_POSTFIX=$OUTPUT_BASENAME.zip
 
-if [ "$url" = "" ]
+if [ "$DOWNLOAD_URL" = "" ]
 then
-    echo "Unsupported OS / architecture: ${os}_${arch}"
+    echo "Unsupported OS / architecture: ${osName}"
     exit 1
 fi
 
-filename=`echo ${url} | sed -e "s/^.*\///g"`
-
 if [ -n $(command -v curl) ]
 then
-    curl -sSL -O $url
-elif [ -n $(command -v wget) ]
-then
-    wget -q $url
+    curl -L $DOWNLOAD_URL -o $OUTPUT_BASENAME_WITH_POSTFIX
 else
-    echo "Need curl or wget"
+    echo "Need curl"
     exit -1
 fi
 
-rm -rf bin && mkdir bin && unzip $filename -d bin > /dev/null && rm -f $filename
+rm -rf bin && mkdir bin && unzip $OUTPUT_BASENAME_WITH_POSTFIX -d bin > /dev/null && rm -f $OUTPUT_BASENAME_WITH_POSTFIX
 
-echo "helm-datree ${version} is installed."
+echo "helm-datree is installed."
 echo
 echo "See https://hub.datree.io for help getting started."
