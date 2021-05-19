@@ -1,5 +1,4 @@
 name: "datree"
-version: "0.1.165"
 usage: "Validate Helm charts"
 description: |-
   "Run Helm charts against the datree policy"
