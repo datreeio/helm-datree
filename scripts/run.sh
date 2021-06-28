@@ -7,15 +7,8 @@ helm_chart=""
 
 while [[ $1 ]]; do
     case "$1" in
-    version | help)
-        $HELM_PLUGIN_DIR/bin/datree $1
-        exit
-        ;;
-    config)
-        datree_options+=("$2")
-        datree_options+=("$3")
-        datree_options+=("$4")
-        $HELM_PLUGIN_DIR/bin/datree config "${datree_options[@]}"
+    version | help | config)
+        $HELM_PLUGIN_DIR/bin/datree $@
         exit
         ;;
     test)
