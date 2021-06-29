@@ -10,7 +10,7 @@ eoo=0
 while [[ $1 ]]; do
     if ! ((eoo)); then
         case "$1" in
-        version | help | config)
+        version | help | --help | config)
             $HELM_PLUGIN_DIR/bin/datree $@
             exit
             ;;
