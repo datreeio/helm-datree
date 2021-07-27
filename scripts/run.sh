@@ -10,7 +10,7 @@ while [[ $1 ]]; do
     if ! ((eoo)); then
         if [[ $1 == "--" ]]; then
             eoo=1
-        elif [[ $helm_chart_location == "" && $(helm show chart $1 2> /dev/null) == apiVersion* ]]; then
+        elif [[ $helm_chart_location == "" && $(helm show chart $1 2> /dev/null | grep apiVersion) == apiVersion* ]]; then
             helm_chart_location=$1
         else 
             datree_options+=("$1")
