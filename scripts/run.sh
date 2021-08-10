@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -eo pipefail
+
 helm_options=()
 datree_options=()
 helm_chart_location=""
@@ -24,7 +26,8 @@ while [[ $1 ]]; do
 done
 
 if [[ ${helm_chart_location} != "" ]]; then
-    helm template "$helm_chart_location" "${helm_options[@]}" | $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" -
+    templateStr=$(helm template "$helm_chart_location" "${helm_options[@]}")
+    echo $templateStr | $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" -
 else
     $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}"
 fi
