@@ -30,7 +30,7 @@ done
 if [[ ${helm_chart_location} != "" ]]; then
     currUinxTimestamp=$(date +%s)
     tempDirPath="/tmp/${helm_chart_name}_$currUinxTimestamp.yaml"
-    helm template "$helm_chart_location" "${helm_options[@]}" > $tempDirPath
+    helm template "${helm_options[@]}" "$helm_chart_location" > $tempDirPath
     $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" $tempDirPath
 else
     $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}"
