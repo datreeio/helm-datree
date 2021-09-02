@@ -1,6 +1,7 @@
 # Datree Helm Plugin
 
-A Helm plugin to validate charts against the Datree policy
+A Helm plugin to validate charts against the Datree policy  
+Docs: https://hub.datree.io/helm-plugin
 
 ## Installation
 ```
@@ -24,8 +25,7 @@ helm datree version
 helm datree help
 ```
 
-
-## WARNING: Alpha release
+## Disclaimer
 
 Datree's Helm plugin is at an early stage of development. We do our best to maintain backwards compatibility but there may be breaking changes in
 the future to the command usage, flags, and configuration file formats. The CLI will output a warning message when a new version with breaking changes is detected.
