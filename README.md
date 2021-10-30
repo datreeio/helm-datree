@@ -52,7 +52,7 @@ This error occurs when trying to scan Chart.yaml or values.yaml files instead of
 ### The policy check returns false-positive results
 The best way to determine if a false-positive result is a bug or a true misconfiguration, is by rendering the Kubernetes manifest with helm and then checking it manually:
 ```
-helm datree test [CHART_DIRECTORY]
+helm template [CHART_DIRECTORY]
 ```
 If after eyeballing the rendered manifest you still suspect it's a bug, please open an issue [here](https://github.com/datreeio/datree/issues/new?assignees=&labels=bug&template=bug_report.md&title=). 
 
