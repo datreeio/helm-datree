@@ -28,9 +28,15 @@ while [[ $1 ]]; do
 done
 
 if [[ ${helm_chart_location} != "" ]]; then
-    currUinxTimestamp=$(date +%s)
-    # tempManifestPath="/tmp/${helm_chart_name}_$currUinxTimestamp.yaml"
-    helm template "${helm_options[@]}" "$helm_chart_location" | $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" -
+    helm_location=$(whereis helm | awk '{print $2}')
+    if [[ ${helm_location} != "/snap/bin/helm" ]]; then
+        currUinxTimestamp=$(date +%s)
+        tempManifestPath="/tmp/${helm_chart_name}_$currUinxTimestamp.yaml"
+        helm template "${helm_options[@]}" "$helm_chart_location" > $tempManifestPath
+        $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" $tempManifestPath
+    else
+        helm template "${helm_options[@]}" "$helm_chart_location" | $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" -
+    fi
 else
     $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}"
 fi
