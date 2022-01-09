@@ -31,6 +31,12 @@ helm datree version
 helm datree help
 ```
 
+### Using other helm command
+Helm might be installed through other tooling like microk8s. The `DATREE_HELM_COMMAND` allows specifying a command to run helm (default: `helm`):
+```
+DATREE_HELM_COMMAND="microk8s helm3" helm datree test [CHART_DIRECTORY]
+```
+
 ## Example
 
 ```
