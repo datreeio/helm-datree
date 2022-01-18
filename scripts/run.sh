@@ -33,7 +33,11 @@ if [[ ${helm_chart_location} != "" ]]; then
     currUinxTimestamp=$(date +%s)
     tempManifestPath="/tmp/${helm_chart_name}_$currUinxTimestamp.yaml"
     $helm_command template "${helm_options[@]}" "$helm_chart_location" > $tempManifestPath
-    $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" $tempManifestPath
+    if [ -s $tempManifestPath ]; then
+        $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" $tempManifestPath
+    else
+        helm template "${helm_options[@]}" "$helm_chart_location" | $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}" -
+    fi
 else
     $HELM_PLUGIN_DIR/bin/datree "${datree_options[@]}"
 fi
