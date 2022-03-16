@@ -6,6 +6,14 @@ A Helm plugin to validate charts against the Datree policy
 ```
 helm plugin install https://github.com/datreeio/helm-datree
 ```
+### Update Datree's plugin version
+```
+helm plugin update datree
+```
+### Uninstall
+```
+helm plugin uninstall datree
+```
 
 ## Usage
 
