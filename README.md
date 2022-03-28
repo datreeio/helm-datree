@@ -6,7 +6,8 @@ A Helm plugin to validate charts against the Datree policy
 ```
 helm plugin install https://github.com/datreeio/helm-datree
 ```
-⚠️ [Helm plugins are not supported on Windows OS](https://github.com/helm/helm/issues/7117) ⚠️
+⚠️ Helm plugins are not supported on Windows OS ⚠️  
+_Windows users can work around this by using [Helm under WSL](https://github.com/helm/helm-2to3#for-windows-using-wsl)_
 </br>
 
 ### Update Datree's plugin version
