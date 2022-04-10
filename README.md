@@ -60,6 +60,11 @@ helm datree test examples/helm-chart/nginx
 
 
 ## Troubleshooting
+
+### Error: plugin "datree" exited with error
+This is actually expected behavior because it's raised by Helm itself every time a plugin returns a [non-zero exit code](https://www.gnu.org/software/bash/manual/html_node/Exit-Status.html#:~:text=A%20non%2Dzero%20exit%20status,N%20as%20the%20exit%20status.).  
+Therefore, if you will run datree plugin on a Chart that will pass the policy check, it will return 0 as exit code, and you will not see this error.
+
 ### K8s schema validation error
 This error occurs when trying to scan Chart.yaml or values.yaml files instead of the chart directory.  
 **Solution:** Pass the helm chart directory path to Datree's CLI, instead of to the file itself:  
