@@ -4,7 +4,13 @@ cd $HELM_PLUGIN_DIR
 echo "Installing helm-datree..."
 
 osName=$(uname -s)
-DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/datreeio/datree/releases/latest" | grep -o "browser_download_url.*\_${osName}_x86_64.zip")
+osArchitecture=$(uname -m)
+
+if [[ $osArchitecture == *'aarch'* || $osArchitecture == *'arm'* ]]; then
+    osArchitecture='arm64'
+fi
+
+DOWNLOAD_URL=$(curl --silent "https://api.github.com/repos/datreeio/datree/releases/latest" | grep -o "browser_download_url.*\_${osName}_${osArchitecture}.zip")
 
 DOWNLOAD_URL=${DOWNLOAD_URL//\"}
 DOWNLOAD_URL=${DOWNLOAD_URL/browser_download_url: /}
