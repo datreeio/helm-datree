@@ -84,8 +84,6 @@ while read -r helmchart; do
         final_exit_code="$exitcode"
     fi
     echo ""
-    # Datree outputs enough space at the end of each run already
-    #echo
 done < <(find "$path" -type f -name 'Chart.y*ml')
 
 if [ "$final_exit_code" = 0 ]; then
