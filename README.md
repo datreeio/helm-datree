@@ -67,7 +67,7 @@ helm datree test examples/helm-chart/nginx
 
 If you have multiple charts inside a single directory, you can test all of them sequentially using the following script:
 
-```
+```bash
 #!/bin/bash
 
 path="${1:-.}"
