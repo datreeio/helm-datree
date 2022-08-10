@@ -63,6 +63,39 @@ helm datree test examples/helm-chart/nginx
 
 ![image](https://user-images.githubusercontent.com/19731161/131975552-b66a84f8-5aa9-4d70-a08e-aae97aa76116.png)
 
+## Testing multiple charts
+
+If you have multiple charts inside a single directory, you can test all of them sequentially using the following script:
+
+```
+#!/bin/bash
+
+path="${1:-.}"
+final_exit_code=0
+
+while read -r helmchart; do
+	dir="$(dirname "$helmchart")"
+    echo "*** Proceeding to test Helm chart: $helmchart ***"
+	set +e
+	helm datree test "$dir"
+	exitcode=$?
+	set -e
+	if [ "$exitcode" -gt "$final_exit_code" ]; then
+        final_exit_code="$exitcode"
+    fi
+    echo ""
+done < <(find "$path" -type f -name 'Chart.y*ml')
+
+if [ "$final_exit_code" = 0 ]; then
+    echo "Success"
+else
+    echo "Violations found, returning exit code $final_exit_code"
+fi
+exit "$final_exit_code"
+```
+
+The script will run a policy check against all charts before exiting, and return 0 only if no violations were found in any of them.  
+This is useful for CI, to avoid the need to call `datree test` multiple times.  
 
 ## Troubleshooting
 
