@@ -53,16 +53,6 @@ Helm might be installed through other tooling like microk8s. The `DATREE_HELM_CO
 DATREE_HELM_COMMAND="microk8s helm3" helm datree test [CHART_DIRECTORY]
 ```
 
-## Example
-
-```
-helm plugin install https://github.com/datreeio/helm-datree
-git clone git@github.com:datreeio/examples.git
-helm datree test examples/helm-chart/nginx
-```
-
-![image](https://user-images.githubusercontent.com/19731161/131975552-b66a84f8-5aa9-4d70-a08e-aae97aa76116.png)
-
 ## Testing multiple charts
 
 If you have multiple charts inside a single directory, you can test all of them sequentially using the following script:
@@ -96,6 +86,45 @@ exit "$final_exit_code"
 
 The script will run a policy check against all charts before exiting, and return 0 only if no violations were found in any of them.  
 This is useful for CI, to avoid the need to call `datree test` multiple times.  
+
+## Examples
+
+### Basic usage
+```
+helm plugin install https://github.com/datreeio/helm-datree
+git clone git@github.com:datreeio/examples.git
+helm datree test examples/helm-chart/nginx
+```
+
+![image](https://user-images.githubusercontent.com/19731161/131975552-b66a84f8-5aa9-4d70-a08e-aae97aa76116.png)
+
+### GitHub Workflow
+```yaml
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+env:
+  DATREE_TOKEN: ${{ secrets.DATREE_TOKEN }} 
+
+jobs:
+  k8sPolicyCheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Run Datree Policy Check
+        uses: datreeio/action-datree@main
+        with:
+          path: 'myChartDirectory'
+          cliArguments: '--only-k8s-files'
+          isHelmChart: true
+          helmArguments: '--values values.yaml'
+```
 
 ## Troubleshooting
 
