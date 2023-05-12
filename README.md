@@ -1,6 +1,6 @@
 # Datree Helm Plugin
 
-A Helm plugin to validate charts against the Datree policy  
+A [Helm](https://www.datree.io/helm-chart) plugin to validate charts against the Datree policy  
 
 ## Installation
 ```
